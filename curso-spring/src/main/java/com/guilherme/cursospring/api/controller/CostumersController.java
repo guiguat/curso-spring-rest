@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class CostumersController {
-  @GetMapping("/clientes")
+  @GetMapping("/costumers")
   public List<Costumer> listar(){
     var costumer1 = new Costumer();
     costumer1.setId(1L);
