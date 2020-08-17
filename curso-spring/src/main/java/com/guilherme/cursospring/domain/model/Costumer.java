@@ -1,29 +1,29 @@
 package com.guilherme.cursospring.domain.model;
 
-public class Cliente {
+public class Costumer {
   private Long id;
-  private String nome;
+  private String name;
   private String email;
-  private String telefone;
+  private String phone;
 
   public Long getId() {
     return id;
   }
 
-  public String getNome() {
-    return nome;
+  public String getName() {
+    return name;
   }
 
-  public void setNome(String nome) {
-    this.nome = nome;
+  public void setName(String name) {
+    this.name = name;
   }
 
-  public String getTelefone() {
-    return telefone;
+  public String getPhone() {
+    return phone;
   }
 
-  public void setTelefone(String telefone) {
-    this.telefone = telefone;
+  public void setPhone(String phone) {
+    this.phone = phone;
   }
 
   public String getEmail() {
