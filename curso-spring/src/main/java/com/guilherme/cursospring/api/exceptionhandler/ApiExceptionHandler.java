@@ -1,9 +1,10 @@
 package com.guilherme.cursospring.api.exceptionhandler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.ArrayList;
 
 import com.guilherme.cursospring.domain.exception.DomainException;
+import com.guilherme.cursospring.domain.exception.EntityNotFoundException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
@@ -25,13 +26,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
   @Autowired
   private MessageSource messageSource;
 
+  @ExceptionHandler(EntityNotFoundException.class)
+  public ResponseEntity<Object> handleEntityNotFound(DomainException ex, WebRequest request){
+    var status = HttpStatus.NOT_FOUND;
+    var problem = new Problem();
+    problem.setStatus(status.value());
+    problem.setTitle(ex.getMessage());
+    problem.setDateTime(OffsetDateTime.now());
+    return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
+  }
+
   @ExceptionHandler(DomainException.class)
   public ResponseEntity<Object> handleDomainException(DomainException ex, WebRequest request){
     var status = HttpStatus.BAD_REQUEST;
     var problem = new Problem();
     problem.setStatus(status.value());
     problem.setTitle(ex.getMessage());
-    problem.setDateTime(LocalDateTime.now());
+    problem.setDateTime(OffsetDateTime.now());
     return handleExceptionInternal(ex, problem, new HttpHeaders(), status, request);
   }
 
@@ -50,7 +61,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
     problem.setStatus(status.value());
     problem.setTitle("There is one or more invalid fields,"
     +" fill them properly and try again");
-    problem.setDateTime(LocalDateTime.now());
+    problem.setDateTime(OffsetDateTime.now());
     problem.setFields(fields);
     return super.handleExceptionInternal(ex, problem, headers, status, request);
   }
